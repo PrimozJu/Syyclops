@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-sidebar-bg {
+    background-color: #090f2d;
+}
+.custom-hover:hover {
+    background-color: #ee4511;
+}

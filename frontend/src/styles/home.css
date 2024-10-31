@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-heading {
+    @apply text-center text-3xl font-bold;
+    font-size: 2.5rem;
+    text-decoration: none;
+    color: #ee4511;
+}
+
+.custom-input {
+    @apply w-full p-2 mt-1 bg-gray-800 text-white rounded-md;
+    background-color: #090f2d;
+}
+
+.custom-button {
+    @apply px-4 py-2 text-white rounded-md;
+}
+
+.custom-button-save {
+    background-color: #ee4511;
+}
+
+.custom-button-reset {
+    @apply bg-gray-600;
+}
