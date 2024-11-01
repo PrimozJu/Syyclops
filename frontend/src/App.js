@@ -6,9 +6,14 @@ import Home from './home';
 function App() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [users, setUsers] = useState([]);
+    const [updateTrigger, setUpdateTrigger] = useState(false);
 
     const handleUserClick = (user) => {
         setSelectedUser(user);
+    };
+
+    const handleUserUpdate = () => {
+        setUpdateTrigger(!updateTrigger);
     };
 
     useEffect(() => {
@@ -24,13 +29,13 @@ function App() {
         };
 
         getUsers();
-    }, []);
+    }, [updateTrigger]);
 
     return (
         <div className="flex">
             <Sidebar onUserClick={handleUserClick} users={users} />;
             <div className="flex-grow">
-                <Home user={selectedUser} />;
+                <Home user={selectedUser} onUserUpdate={handleUserUpdate} />;
             </div>
             v
         </div>

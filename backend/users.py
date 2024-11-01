@@ -2,27 +2,29 @@ def get_users():
     return [
         {
             "id": 1,
-            "name": "John Doe",
+            "firstName": "John Doe",
             "email": "john@doe.com"
         },
         {
             "id": 2,
-            "name": "Jane Doe",
+            "firstName": "Jane Doe",
             "email": "jan@doe.com"
         },
         {
             "id": 3,
-            "name": "Alice",
+            "firstName": "Alice",
             "email": "alice@doe.com"
         },
         {
             "id": 4,
-            "name": "Bob",
+            "firstName": "Bob",
             "email": "bob@doe.com"
         },
         {
             "id": 5,
-            "name": "Charlie",
+            "firstName": "Charlie",
             "email": "charlie@doe.com"
         }
     ]
+    
+# changed name to first name for the purpose of easy switching between resoruces on FE
