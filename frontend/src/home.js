@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { updateData } from './api/api';
+import { updateData, deleteData } from './api/api';
 import '../src/styles/home.css';
 
 const allowedFields = [
@@ -12,7 +12,7 @@ const allowedFields = [
     { name: 'phone', label: 'Phone' },
 ];
 
-const Home = ({ user, onUserUpdate }) => {
+const Home = ({ user, onUserUpdate, onUserDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedUser, setEditedUser] = useState(user);
 
@@ -29,6 +29,17 @@ const Home = ({ user, onUserUpdate }) => {
             onUserUpdate();
         } catch (error) {
             console.error('Error updating user:', error);
+        }
+    };
+
+    const handleDeleteClick = async () => {
+        console.log('Deleting user:', editedUser);
+        try {
+            const response = await deleteData(editedUser.id);
+            console.log('User deleted:', response);
+            onUserDelete();
+        } catch (error) {
+            console.error('Error deleting user:', error);
         }
     };
 
@@ -71,10 +82,13 @@ const Home = ({ user, onUserUpdate }) => {
                             Reset
                         </button>
                         <button
-                            className="custom-button custom-button-save"
+                            className="custom-button custom-button-save mr-2"
                             onClick={isEditing ? handleSaveClick : () => setIsEditing(true)}
                         >
                             {isEditing ? 'Save' : 'Edit'}
+                        </button>
+                        <button className="custom-button custom-button-delete " onClick={handleDeleteClick}>
+                            Delete
                         </button>
                     </div>
                 </div>

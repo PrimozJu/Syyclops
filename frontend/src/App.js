@@ -16,6 +16,11 @@ function App() {
         setUpdateTrigger(!updateTrigger);
     };
 
+    const handleUserDelete = () => {
+        setSelectedUser(null);
+        setUpdateTrigger(!updateTrigger);
+    };
+
     useEffect(() => {
         console.log('Fetching users...');
         const getUsers = async () => {
@@ -29,13 +34,13 @@ function App() {
         };
 
         getUsers();
-    }, [updateTrigger]);
+    }, [updateTrigger]); //()re)fetching data when triggered by initial render (or update/delete)
 
     return (
         <div className="flex">
             <Sidebar onUserClick={handleUserClick} users={users} />;
             <div className="flex-grow">
-                <Home user={selectedUser} onUserUpdate={handleUserUpdate} />;
+                <Home user={selectedUser} onUserUpdate={handleUserUpdate} onUserDelete={handleUserDelete} />;
             </div>
             v
         </div>
