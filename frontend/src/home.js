@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { updateData, deleteData } from './api/api';
 import '../src/styles/home.css';
+/* Fields are displayed dynamically, one source displays all the fields, our backend only three as I did not want to modify users.py */
+/* Added VERY simple validation, only for email and name to demonstrate the neccesity of it  */
+
+const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+};
+
+const validateName = (name) => {
+    const re = /^[a-zA-Z\s]+$/;
+    return re.test(String(name));
+};
 
 const allowedFields = [
     { name: 'id', label: 'ID' },
@@ -15,16 +27,34 @@ const allowedFields = [
 const Home = ({ user, onUserUpdate, onUserDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedUser, setEditedUser] = useState(user);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         setEditedUser(user);
     }, [user]);
 
     const handleSaveClick = async () => {
+        const validationErrors = {};
+        if (!validateEmail(editedUser.email)) {
+            validationErrors.email = 'Invalid email address';
+        }
+        if (!validateName(editedUser.firstName)) {
+            validationErrors.firstName = 'Name cannot contain numbers';
+        }
+        if (!validateName(editedUser.lastName)) {
+            validationErrors.lastName = 'Name cannot contain numbers';
+        }
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
         setIsEditing(false);
         console.log('Saving user:', editedUser);
+
         try {
-            const response = await updateData(`/user/${editedUser.id}`, editedUser);
+            const response = await updateData(editedUser.id, editedUser);
             console.log('User updated:', response);
             onUserUpdate();
         } catch (error) {
@@ -46,6 +76,7 @@ const Home = ({ user, onUserUpdate, onUserDelete }) => {
     const handleResetClick = () => {
         setEditedUser(user);
         setIsEditing(false);
+        setErrors({});
     };
 
     const handleChange = (e) => {
@@ -53,6 +84,10 @@ const Home = ({ user, onUserUpdate, onUserDelete }) => {
         setEditedUser((prevUser) => ({
             ...prevUser,
             [name]: value,
+        }));
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: '',
         }));
     };
 
@@ -70,10 +105,13 @@ const Home = ({ user, onUserUpdate, onUserDelete }) => {
                                         type="text"
                                         name={field.name}
                                         value={editedUser?.[field.name] || ''}
-                                        readOnly={!isEditing}
+                                        readOnly={field.name === 'id' || !isEditing}
                                         onChange={handleChange}
                                         className="custom-input"
                                     />
+                                    {errors[field.name] && (
+                                        <p className="text-red-500 text-xs mt-1">{errors[field.name]}</p>
+                                    )}
                                 </div>
                             )
                     )}

@@ -23,9 +23,9 @@ export const fetchData = async () => {
     }
 };
 
-export const updateData = async (endpoint, data) => {
+export const updateData = async (id, data) => {
     try {
-        const response = await api.put(endpoint, data);
+        const response = await api.put('/user/' + id, data);
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);

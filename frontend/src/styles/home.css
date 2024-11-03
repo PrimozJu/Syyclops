@@ -22,6 +22,10 @@
     background-color: #ee4511;
 }
 
+.custom-button-delete {
+    background-color: #6607ff;
+}
+
 .custom-button-reset {
     @apply bg-gray-600;
 }
